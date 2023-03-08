@@ -26,9 +26,10 @@ def events(screen, gun, bullets):
                 gun.mleft = False
 
 
-def update(bg_color, screen, gun, inos, bullets):
+def update(bg_color, screen, stats, sc, gun, inos, bullets):
     """update screen """
     screen.fill(bg_color)
+    sc.show_score()
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     gun.output()
@@ -36,25 +37,33 @@ def update(bg_color, screen, gun, inos, bullets):
     pygame.display.flip()
 
 
-def update_bullets(screen, inos, bullets):
+def update_bullets(screen, stats, sc, inos, bullets):
     """update pose bullets"""
     bullets.update()
     for bullet in bullets:
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     collisions = pygame.sprite.groupcollide(bullets, inos, True, True)
+    if collisions:
+        for inos in collisions.values():
+            stats.score += 10 * len(inos)
+        sc.image_score()
     if len(inos) == 0:
         bullets.empty()
         create_army(screen, inos)
 
 def gun_kill(stats, screen, gun, inos, bullets):
     """crash gun and army"""
-    stats.guns_left -= 1
-    inos.empty()
-    bullets.empty()
-    create_army(screen, inos)
-    gun.create_gun()
-    time.sleep(2)
+    if stats.guns_left > 0:
+        stats.guns_left -= 1
+        inos.empty()
+        bullets.empty()
+        create_army(screen, inos)
+        gun.create_gun()
+        time.sleep(2)
+    else:
+        stats.run_game = False
+        sys.exit()
 
 def update_inos(stats, screen, gun, inos, bullets):
     """update pose inos"""
