@@ -1,7 +1,7 @@
 import pygame, controls
 # import sys
 from gun import Gun
-
+from pygame.sprite import Group
 
 def run():
 
@@ -10,13 +10,14 @@ def run():
     pygame.display.set_caption("My Space Game")
     bg_color = (0, 0, 0)
     gun = Gun(screen)
+    bullets = Group()
+
 
     while True:
         controls.events(gun)
         gun.update_gun()
-        screen.fill(bg_color)
-        gun.output()
-        pygame.display.flip()
+        bullets.update()
+        controls.update(bg_color, screen, gun)
 
 
 
