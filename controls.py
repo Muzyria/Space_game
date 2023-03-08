@@ -49,14 +49,16 @@ def update_bullets(screen, stats, sc, inos, bullets):
             stats.score += 10 * len(inos)
         sc.image_score()
         check_high_score(stats, sc)
+        sc.image_guns()
     if len(inos) == 0:
         bullets.empty()
         create_army(screen, inos)
 
-def gun_kill(stats, screen, gun, inos, bullets):
+def gun_kill(stats, screen, sc, gun, inos, bullets):
     """crash gun and army"""
     if stats.guns_left > 0:
         stats.guns_left -= 1
+        sc.image_guns()
         inos.empty()
         bullets.empty()
         create_army(screen, inos)
@@ -66,19 +68,19 @@ def gun_kill(stats, screen, gun, inos, bullets):
         stats.run_game = False
         sys.exit()
 
-def update_inos(stats, screen, gun, inos, bullets):
+def update_inos(stats, screen, sc, gun, inos, bullets):
     """update pose inos"""
     inos.update()
     if pygame.sprite.spritecollideany(gun, inos):
-        gun_kill(stats, screen, gun, inos, bullets)
-    inos_check(stats, screen, gun, inos, bullets)
+        gun_kill(stats, screen, sc, gun, inos, bullets)
+    inos_check(stats, screen, sc, gun, inos, bullets)
 
-def inos_check(stats, screen, gun, inos, bullets):
+def inos_check(stats, screen,sc,  gun, inos, bullets):
     """check army on bottom screen"""
     screen_rect = screen.get_rect()
     for ino in inos.sprites():
         if ino.rect.bottom >= screen_rect.bottom:
-            gun_kill(stats, screen, gun, inos, bullets)
+            gun_kill(stats, screen, sc, gun, inos, bullets)
             break
 
 
