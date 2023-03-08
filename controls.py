@@ -28,6 +28,15 @@ def events(screen, gun, bullets):
 def update(bg_color, screen, gun, bullets):
     """update screen """
     screen.fill(bg_color)
+    for bullet in bullets.sprites():
+        bullet.draw_bullet()
     gun.output()
     pygame.display.flip()
 
+
+def update_bullets(bullets):
+    """update pose bullets"""
+    bullets.update()
+    for bullet in bullets:
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
