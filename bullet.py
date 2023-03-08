@@ -6,9 +6,9 @@ class Bullet(pygame.sprite.Sprite):
         """create bullet in pose gun"""
         super(Bullet, self).__init__()
         self.screen = screen
-        self.rect = pygame.Rect(0, 0, 4, 20)
+        self.rect = pygame.Rect(0, 0, 40, 20)
         self.color = 139, 195, 74
-        self.speed = 1
+        self.speed = 4
         self.rect.centerx = gun.rect.centerx
         self.rect.top = gun.rect.top
         self.y = float(self.rect.y)

@@ -22,8 +22,11 @@ class Gun:
     def update_gun(self):
         """update pose gun"""
         if self.mright and self.rect.right < self.screen_rect.right:
-            self.center += 1.5
+            self.center += 1
         if self.mleft and self.rect.left > self.screen_rect.left:
-            self.center -= 1.5
+            self.center -= 1
 
         self.rect.centerx = self.center
+
+    def create_gun(self):
+        self.center = self.screen_rect.centerx
